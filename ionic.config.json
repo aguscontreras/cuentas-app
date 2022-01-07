@@ -1,0 +1,7 @@
+{
+  "name": "cuentas-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
