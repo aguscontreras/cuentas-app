@@ -27,6 +27,14 @@ export class ProductosPage implements OnInit {
     this.presentModal();
   }
 
+  handleClickItem(productId: number): void {
+    this.selectedProducto = this.productos.find(
+      (product) => product.id === productId
+    );
+
+    this.presentModal();
+  }
+
   async presentModal() {
     const modal = await this.modalController.create({
       component: AbmProductoComponent,
@@ -49,5 +57,9 @@ export class ProductosPage implements OnInit {
     this.productos = this.productosService.productos;
     this.total = 0;
     this.productos.forEach((producto) => (this.total += producto.precio));
+  }
+
+  log(text: string): void {
+    console.log(text);
   }
 }

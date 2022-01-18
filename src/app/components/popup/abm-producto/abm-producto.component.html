@@ -1,6 +1,6 @@
 <section class="section ion-padding">
   <div class="ion-text-center">
-    <h2>Nuevo Producto</h2>
+    <h2>{{ producto ? "Editar" : "Nuevo" }} producto</h2>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">

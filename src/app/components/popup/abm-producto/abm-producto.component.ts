@@ -10,10 +10,7 @@ import { ProductosService } from '../../../_services/productos.service';
   styleUrls: ['./abm-producto.component.scss'],
 })
 export class AbmProductoComponent implements OnInit {
-  @Input() nombre: string;
-  @Input() precio: number = 0;
   @Input() producto: Producto;
-
   form: FormGroup;
 
   constructor(
@@ -45,7 +42,15 @@ export class AbmProductoComponent implements OnInit {
 
     if (this.form.valid) {
       const producto = new Producto(this.f.nombre.value, this.f.precio.value);
-      this.productosService.addProducto(producto);
+
+      if (this.producto != null) {
+        //  this.productosService.updateProducto(producto);
+        this.producto.nombre = producto.nombre;
+        this.producto.precio = producto.precio;
+      } else {
+        this.productosService.addProducto(producto);
+      }
+
       this.modalController.dismiss(producto);
     }
   }

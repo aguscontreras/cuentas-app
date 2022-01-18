@@ -28,9 +28,13 @@
       <ion-list-header> Aún no has agregado productos. </ion-list-header>
     </ng-template>
 
-    <ion-item *ngFor="let producto of productos">
+    <ion-item
+      *ngFor="let producto of productos"
+      button
+      (click)="handleClickItem(producto.id)"
+    >
       <ion-label>{{ producto.nombre | titlecase }}</ion-label>
-      <ion-label slot="end">${{ producto.precio }}</ion-label>
+      <ion-note slot="end">${{ producto.precio }}</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>
