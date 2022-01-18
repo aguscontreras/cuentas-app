@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cuentas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card button (click)="goToProductosPage()">
+    <ion-card-header>
+      <ion-card-title>Compras</ion-card-title>
+      <ion-card-subtitle>Listado de productos comprados</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-center">
+              <ion-text color="primary">
+                <h1>{{productos.length}}</h1>
+                <h2>productos</h2>
+              </ion-text>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="ion-text-center">
+              <ion-text color="primary">
+                <h1>${{gastado || 0}}</h1>
+                <h2>gastado</h2>
+              </ion-text>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card button>
+    <ion-card-header>
+      <ion-card-title>Participantes</ion-card-title>
+      <ion-card-subtitle>Consumieron o pagaron productos</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col
+            ><div class="ion-text-center">
+              <ion-text color="primary">
+                <h1>{{participantes.length}}</h1>
+                <h2>personas</h2>
+              </ion-text>
+            </div></ion-col
+          >
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

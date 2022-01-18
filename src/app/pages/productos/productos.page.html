@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-list>
+    <ion-list-header>Nuevo</ion-list-header>
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Precio</ion-label>
+      <ion-input type="number" max="100000"></ion-input>
+    </ion-item>
+  </ion-list> -->
+
+  <!-- <ion-button expand="block" class="ion-margin">Agregar producto</ion-button> -->
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    (click)="handleClickBtnAdd()"
+  >
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-list>
+    <ion-list-header>
+      {{productos.length}} productos - ${{total}}
+    </ion-list-header>
+
+    <ion-item *ngFor="let producto of productos">
+      <ion-label>{{ producto.nombre }}</ion-label>
+      <ion-label slot="end">${{ producto.precio }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

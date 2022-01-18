@@ -1,0 +1,24 @@
+<section class="section ion-padding">
+  <div class="ion-text-center">
+    <h2>Nuevo Producto</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input type="text" id="nombre" formControlName="nombre"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Precio</ion-label>
+      <ion-input type="number" id="precio" formControlName="precio"></ion-input>
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      class="ion-margin-top"
+      type="submit"
+      [disabled]="!form.valid"
+      >Guardar</ion-button
+    >
+  </form>
+</section>
