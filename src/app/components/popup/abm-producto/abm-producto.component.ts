@@ -46,7 +46,7 @@ export class AbmProductoComponent implements OnInit {
     if (this.form.valid) {
       const producto = new Producto(this.f.nombre.value, this.f.precio.value);
       this.productosService.addProducto(producto);
-      this.modalController.dismiss({ ...this.form.value });
+      this.modalController.dismiss(producto);
     }
   }
 }

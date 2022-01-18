@@ -37,10 +37,17 @@ export class ProductosPage implements OnInit {
 
     modal.onDidDismiss().then((res) => {
       if (res.data != null) {
-        this.productos = this.productosService.productos;
+        this.handleCloseModal(res.data);
       }
     });
 
     return await modal.present();
+  }
+
+  handleCloseModal(producto: Producto): void {
+    console.log(producto);
+    this.productos = this.productosService.productos;
+    this.total = 0;
+    this.productos.forEach((producto) => (this.total += producto.precio));
   }
 }

@@ -6,7 +6,12 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="stacked">Nombre</ion-label>
-      <ion-input type="text" id="nombre" formControlName="nombre"></ion-input>
+      <ion-input
+        type="text"
+        id="nombre"
+        formControlName="nombre"
+        autofocus="true"
+      ></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Precio</ion-label>
