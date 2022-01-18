@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { AbmProductoComponent } from '../../components/popup/abm-producto/abm-producto.component';
 import { Producto } from '../../models';
 import { ProductosService } from '../../_services/productos.service';
+import { ToastService } from '../../_services/toast.service';
 
 @Component({
   selector: 'app-productos',
@@ -16,7 +17,8 @@ export class ProductosPage implements OnInit {
 
   constructor(
     public readonly modalController: ModalController,
-    private readonly productosService: ProductosService
+    private readonly productosService: ProductosService,
+    private readonly toastService: ToastService
   ) {
     this.productos = this.productosService.productos;
   }
@@ -54,6 +56,7 @@ export class ProductosPage implements OnInit {
 
   handleCloseModal(producto: Producto): void {
     console.log(producto);
+    this.toastService.presentToast('Producto añadido');
     this.productos = this.productosService.productos;
     this.total = 0;
     this.productos.forEach((producto) => (this.total += producto.precio));
