@@ -1,6 +1,6 @@
-import { Producto } from './';
+import { Product } from './';
 
 export interface Participante {
   nombre: string;
-  productos: Producto[];
+  productos: Product[];
 }

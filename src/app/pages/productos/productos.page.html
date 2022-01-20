@@ -20,8 +20,8 @@
   </ion-fab>
 
   <ion-list>
-    <ion-list-header *ngIf="productos.length; else noProducts">
-      {{productos.length}} productos - ${{total}}
+    <ion-list-header *ngIf="products.length; else noProducts">
+      {{products.length}} productos - ${{total}}
     </ion-list-header>
 
     <ng-template #noProducts>
@@ -29,12 +29,12 @@
     </ng-template>
 
     <ion-item
-      *ngFor="let producto of productos"
+      *ngFor="let product of products"
       button
-      (click)="handleClickItem(producto.id)"
+      (click)="handleClickItem(product.id)"
     >
-      <ion-label>{{ producto.nombre | titlecase }}</ion-label>
-      <ion-note slot="end">${{ producto.precio }}</ion-note>
+      <ion-label>{{ product.nombre | titlecase }}</ion-label>
+      <ion-note slot="end">${{ product.precio }}</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>

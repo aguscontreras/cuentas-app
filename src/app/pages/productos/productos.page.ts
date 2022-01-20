@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AbmProductoComponent } from '../../components/popup/abm-producto/abm-producto.component';
-import { Producto } from '../../models';
+import { Product } from '../../models';
 import { ProductosService } from '../../_services/productos.service';
 import { ToastService } from '../../_services/toast.service';
 
@@ -11,8 +11,8 @@ import { ToastService } from '../../_services/toast.service';
   styleUrls: ['./productos.page.scss'],
 })
 export class ProductosPage implements OnInit {
-  public productos: Producto[];
-  public selectedProducto: Producto;
+  public products: Product[];
+  public selectedProducto: Product;
   public total: number = 0;
 
   constructor(
@@ -20,46 +20,60 @@ export class ProductosPage implements OnInit {
     private readonly productosService: ProductosService,
     private readonly toastService: ToastService
   ) {
-    this.productos = this.productosService.productos;
+    this.products = this.productosService.products;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.calculateTotal();
+  }
 
   handleClickBtnAdd(): void {
     this.presentModal();
   }
 
   handleClickItem(productId: number): void {
-    this.selectedProducto = this.productos.find(
+    this.selectedProducto = this.products.find(
       (product) => product.id === productId
     );
 
-    this.presentModal();
+    this.presentModal(this.selectedProducto);
   }
 
-  async presentModal() {
+  async presentModal(producto?: Product) {
     const modal = await this.modalController.create({
       component: AbmProductoComponent,
-      componentProps: { producto: this.selectedProducto },
+      componentProps: { producto },
       initialBreakpoint: 0.5,
       breakpoints: [0, 0.5],
     });
 
     modal.onDidDismiss().then((res) => {
-      if (res.data != null) {
-        this.handleCloseModal(res.data);
-      }
+      this.handleCloseModal(res.role, res.data);
     });
 
     return await modal.present();
   }
 
-  handleCloseModal(producto: Producto): void {
-    console.log(producto);
-    this.toastService.presentToast('Producto añadido');
-    this.productos = this.productosService.productos;
+  handleCloseModal(role: string, producto?: Product): void {
+    const messagesByRole = {
+      add: `Se agregó ${producto?.nombre} a la lista`,
+      edit: `Se modificó el item ${producto?.nombre}`,
+      remove: `Item removido`,
+    };
+
+    if (messagesByRole[role]) {
+      this.toastService.presentToast(messagesByRole[role]);
+    }
+
+    this.products = this.productosService.products;
+    this.calculateTotal();
+  }
+
+  calculateTotal(): void {
     this.total = 0;
-    this.productos.forEach((producto) => (this.total += producto.precio));
+    if (this.products.length) {
+      this.products.forEach((producto) => (this.total += producto.precio));
+    }
   }
 
   log(text: string): void {

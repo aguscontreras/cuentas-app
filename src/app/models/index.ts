@@ -1,2 +1,2 @@
 export { Participante } from './participante';
-export { Producto } from "./producto";
+export { Product } from './producto';
