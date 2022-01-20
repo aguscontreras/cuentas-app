@@ -6,12 +6,7 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="stacked">Nombre</ion-label>
-      <ion-input
-        type="text"
-        id="nombre"
-        formControlName="nombre"
-        autofocus="true"
-      ></ion-input>
+      <ion-input type="text" id="nombre" formControlName="nombre"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Precio</ion-label>
@@ -25,5 +20,18 @@
       [disabled]="!form.valid"
       >Guardar</ion-button
     >
+
+    <ng-container *ngIf="producto != null">
+      <ion-button
+        id="btnRemove"
+        expand="block"
+        class="ion-margin-top"
+        color="danger"
+        fill="outline"
+        type="button"
+        (click)="handleClickBtnRemove()"
+        >Quitar</ion-button
+      >
+    </ng-container>
   </form>
 </section>

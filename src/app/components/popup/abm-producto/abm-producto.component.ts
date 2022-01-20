@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
-import { Producto } from '../../../models/producto';
+import { AlertController, ModalController } from '@ionic/angular';
+import { Product } from '../../../models/producto';
 import { ProductosService } from '../../../_services/productos.service';
 
 @Component({
@@ -10,12 +10,13 @@ import { ProductosService } from '../../../_services/productos.service';
   styleUrls: ['./abm-producto.component.scss'],
 })
 export class AbmProductoComponent implements OnInit {
-  @Input() producto: Producto;
+  @Input() producto: Product;
   form: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly modalController: ModalController,
+    private readonly alertController: AlertController,
     private readonly productosService: ProductosService
   ) {
     this.form = this.fb.group({
@@ -41,17 +42,57 @@ export class AbmProductoComponent implements OnInit {
     console.log(this.form.value);
 
     if (this.form.valid) {
-      const producto = new Producto(this.f.nombre.value, this.f.precio.value);
+      const producto = new Product(this.f.nombre.value, this.f.precio.value);
 
       if (this.producto != null) {
         //  this.productosService.updateProducto(producto);
         this.producto.nombre = producto.nombre;
         this.producto.precio = producto.precio;
+        this.modalController.dismiss(producto, 'edit');
       } else {
-        this.productosService.addProducto(producto);
+        this.productosService.addProduct(producto);
+        this.modalController.dismiss(producto, 'add');
       }
-
-      this.modalController.dismiss(producto);
     }
+  }
+
+  handleClickBtnRemove(): void {
+    this.presentAlertRemoveItem();
+  }
+
+  private async presentAlertRemoveItem() {
+    const alert = await this.alertController.create({
+      header: 'Ola',
+      subHeader: 'Confirman2',
+      message: '¿Deseas quitar el producto?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          id: 'btnCancel',
+          handler: () => {
+            this.alertController.dismiss();
+          },
+        },
+        {
+          text: 'Aceptar',
+          role: 'accept',
+          id: 'btnAccept',
+          handler: () => {
+            this.removeItem();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  private removeItem(): void {
+    this.productosService.removeProduct(this.producto.id);
+    this.alertController.dismiss();
+    setTimeout(() => {
+      this.modalController.dismiss(null, 'remove');
+    }, 0);
   }
 }
