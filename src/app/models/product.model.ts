@@ -20,4 +20,10 @@ export class Product {
   addMember(member: Member) {
     this.members = [...this.members, member];
   }
+
+  removeMember(member: Member) {
+    this.members = this.members.filter(
+      (m) => m.name.toLowerCase() !== member.name.toLowerCase()
+    );
+  }
 }
