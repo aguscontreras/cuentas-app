@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Product } from '../../../models/producto';
+import { Product } from '../../../models/product.model';
 import { ProductosService } from '../../../_services/productos.service';
 
 @Component({
