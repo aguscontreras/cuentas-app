@@ -7,25 +7,7 @@ import { Product } from '../models';
 export class ProductosService {
   public products: Product[] = [];
 
-  constructor() {
-    this.products.push({
-      nombre: 'Coca Cola',
-      precio: 180,
-      id: 1,
-    });
-
-    this.products.push({
-      nombre: 'Vino tinto',
-      precio: 200,
-      id: 2,
-    });
-
-    this.products.push({
-      nombre: 'Verduleria',
-      precio: 300,
-      id: 3,
-    });
-  }
+  constructor() {}
 
   getAll(): Product[] {
     return this.products;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Participante, Product } from '../../models';
+import { Member, Product } from '../../models';
 
 @Component({
   selector: 'app-overview',
@@ -8,9 +8,9 @@ import { Participante, Product } from '../../models';
   styleUrls: ['./overview.page.scss'],
 })
 export class OverviewPage implements OnInit {
-  productos: Product[] = [];
+  products: Product[] = [];
   gastado: number;
-  participantes: Participante[] = [];
+  members: Member[] = [];
 
   constructor(private router: Router) {}
 
