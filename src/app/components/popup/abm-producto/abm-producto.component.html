@@ -1,6 +1,6 @@
 <section class="section ion-padding">
   <div class="ion-text-center">
-    <h2>{{ producto ? "Editar" : "Nuevo" }} producto</h2>
+    <h2>{{ isNewProduct ? "Nuevo" : "Editar" }} producto</h2>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -21,7 +21,7 @@
       >Guardar</ion-button
     >
 
-    <ng-container *ngIf="producto != null">
+    <ng-container *ngIf="!isNewProduct">
       <ion-button
         id="btnRemove"
         expand="block"
@@ -34,4 +34,22 @@
       >
     </ng-container>
   </form>
+
+  <ion-list class="ion-margin-top">
+    <ion-list-header>
+      Asignar a participante ({{ members.length }})
+    </ion-list-header>
+
+    <ion-item
+      *ngFor="let member of members"
+      button
+      (click)="handleClickMemberItem(member)"
+    >
+      <ion-label>{{ member.name | titlecase }}</ion-label>
+      <ion-checkbox
+        slot="end"
+        [(ngModel)]="member.products[product?.id]"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
 </section>

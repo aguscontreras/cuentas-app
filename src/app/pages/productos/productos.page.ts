@@ -47,10 +47,10 @@ export class ProductosPage implements OnInit {
     this.presentModal(this.selectedProducto);
   }
 
-  async presentModal(producto?: Product) {
+  async presentModal(product?: Product) {
     const modal = await this.modalController.create({
       component: AbmProductoComponent,
-      componentProps: { producto },
+      componentProps: { product },
       initialBreakpoint: 0.5,
       breakpoints: [0, 0.5, 1],
     });

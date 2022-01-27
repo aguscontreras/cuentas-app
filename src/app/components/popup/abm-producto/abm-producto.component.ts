@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Product } from '../../../models/product.model';
 import { ProductsService } from '../../../_services/productos.service';
+import { MembersService } from '../../../_services/members.service';
+import { Member } from '../../../models';
 
 @Component({
   selector: 'app-abm-producto',
@@ -10,28 +12,36 @@ import { ProductsService } from '../../../_services/productos.service';
   styleUrls: ['./abm-producto.component.scss'],
 })
 export class AbmProductoComponent implements OnInit {
-  @Input() producto: Product;
+  @Input() product: Product;
+  members: Member[] = [];
   form: FormGroup;
+  isNewProduct: boolean;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly modalController: ModalController,
     private readonly alertController: AlertController,
-    private readonly productsService: ProductsService
-  ) {
-    this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      precio: ['', Validators.required],
-    });
-  }
+    private readonly productsService: ProductsService,
+    private readonly membersService: MembersService
+  ) {}
 
   ngOnInit() {
-    if (this.producto != null) {
-      this.form.patchValue({
-        nombre: this.producto.nombre,
-        precio: this.producto.precio,
-      });
+    if (this.product == null) {
+      this.product = new Product('', 0);
+      this.isNewProduct = true;
     }
+
+    this.form = this.fb.group({
+      nombre: [this.product.nombre, Validators.required],
+      precio: [
+        this.product.precio,
+        [Validators.required, Validators.min(0.01)],
+      ],
+    });
+
+    this.membersService.members$.subscribe({
+      next: (members) => (this.members = members),
+    });
   }
 
   get f() {
@@ -39,25 +49,30 @@ export class AbmProductoComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.form.value);
+    if (!this.form.valid) {
+      return;
+    }
 
-    if (this.form.valid) {
-      if (this.producto != null) {
-        const product = this.productsService.getProductoById(this.producto.id);
-        product.nombre = this.f.nombre.value;
-        product.precio = this.f.precio.value;
-        this.productsService.updateProduct(product);
-        this.modalController.dismiss(product, 'edit');
-      } else {
-        const product = new Product(this.f.nombre.value, this.f.precio.value);
-        this.productsService.addProduct(product);
-        this.modalController.dismiss(product, 'add');
-      }
+    this.product.nombre = this.f.nombre.value;
+    this.product.precio = this.f.precio.value;
+
+    if (this.isNewProduct) {
+      this.productsService.addProduct(this.product);
+      this.modalController.dismiss(this.product, 'add');
+    } else {
+      this.productsService.updateProduct(this.product);
+      this.modalController.dismiss(this.product, 'edit');
     }
   }
 
   handleClickBtnRemove(): void {
     this.presentAlertRemoveItem();
+  }
+
+  handleClickMemberItem(member: Member): void {
+    member.products[this.product.id] = !member.products[this.product.id];
+    this.product.members[member.id] = !this.product.members[member.id];
+    console.log(member);
   }
 
   private async presentAlertRemoveItem() {
@@ -89,7 +104,7 @@ export class AbmProductoComponent implements OnInit {
   }
 
   private removeItem(): void {
-    this.productsService.removeProduct(this.producto.id);
+    this.productsService.removeProduct(this.product.id);
     this.alertController.dismiss();
     setTimeout(() => {
       this.modalController.dismiss(null, 'remove');
