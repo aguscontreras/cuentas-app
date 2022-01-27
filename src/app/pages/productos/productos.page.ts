@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AbmProductoComponent } from '../../components/popup/abm-producto/abm-producto.component';
 import { Product } from '../../models';
-import { ProductosService } from '../../_services/productos.service';
+import { ProductsService } from '../../_services/productos.service';
 import { ToastService } from '../../_services/toast.service';
 
 @Component({
@@ -17,14 +17,18 @@ export class ProductosPage implements OnInit {
 
   constructor(
     public readonly modalController: ModalController,
-    private readonly productosService: ProductosService,
+    private readonly productosService: ProductsService,
     private readonly toastService: ToastService
-  ) {
-    this.products = this.productosService.products;
-  }
+  ) {}
 
   ngOnInit() {
-    this.calculateTotal();
+    this.productosService.products$.subscribe({
+      next: (products) => {
+        this.products = products;
+        this.calculateTotal();
+        console.log(this.products);
+      },
+    });
   }
 
   handleClickBtnAdd(): void {
@@ -64,9 +68,6 @@ export class ProductosPage implements OnInit {
     if (messagesByRole[role]) {
       this.toastService.presentToast(messagesByRole[role]);
     }
-
-    this.products = this.productosService.products;
-    this.calculateTotal();
   }
 
   calculateTotal(): void {
