@@ -14,6 +14,10 @@ const routes: Routes = [
         (m) => m.OverviewPageModule
       ),
   },
+  {
+    path: 'members',
+    loadChildren: () => import('./pages/members/members.module').then( m => m.MembersPageModule)
+  },
 ];
 @NgModule({
   imports: [
