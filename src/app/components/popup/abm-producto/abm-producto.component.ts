@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Product } from '../../../models/product.model';
-import { ProductosService } from '../../../_services/productos.service';
+import { ProductsService } from '../../../_services/productos.service';
 
 @Component({
   selector: 'app-abm-producto',
@@ -17,7 +17,7 @@ export class AbmProductoComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly modalController: ModalController,
     private readonly alertController: AlertController,
-    private readonly productosService: ProductosService
+    private readonly productsService: ProductsService
   ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
@@ -42,16 +42,16 @@ export class AbmProductoComponent implements OnInit {
     console.log(this.form.value);
 
     if (this.form.valid) {
-      const producto = new Product(this.f.nombre.value, this.f.precio.value);
-
       if (this.producto != null) {
-        //  this.productosService.updateProducto(producto);
-        this.producto.nombre = producto.nombre;
-        this.producto.precio = producto.precio;
-        this.modalController.dismiss(producto, 'edit');
+        const product = this.productsService.getProductoById(this.producto.id);
+        product.nombre = this.f.nombre.value;
+        product.precio = this.f.precio.value;
+        this.productsService.updateProduct(product);
+        this.modalController.dismiss(product, 'edit');
       } else {
-        this.productosService.addProduct(producto);
-        this.modalController.dismiss(producto, 'add');
+        const product = new Product(this.f.nombre.value, this.f.precio.value);
+        this.productsService.addProduct(product);
+        this.modalController.dismiss(product, 'add');
       }
     }
   }
@@ -89,7 +89,7 @@ export class AbmProductoComponent implements OnInit {
   }
 
   private removeItem(): void {
-    this.productosService.removeProduct(this.producto.id);
+    this.productsService.removeProduct(this.producto.id);
     this.alertController.dismiss();
     setTimeout(() => {
       this.modalController.dismiss(null, 'remove');
