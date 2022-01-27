@@ -17,6 +17,10 @@ export class OverviewPage implements OnInit {
   ngOnInit() {}
 
   goToProductosPage(): void {
-    this.router.navigateByUrl('tabs/overview/productos');
+    this.router.navigateByUrl('tabs/overview/products');
+  }
+
+  goToMembersPage(): void {
+    this.router.navigateByUrl('tabs/overview/members');
   }
 }

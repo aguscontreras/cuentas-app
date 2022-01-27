@@ -9,18 +9,16 @@ const routes: Routes = [
     component: OverviewPage,
   },
   {
-    path: 'productos',
+    path: 'products',
     loadChildren: () =>
       import('../productos/productos.module').then(
         (m) => m.ProductosPageModule
       ),
   },
   {
-    path: 'participantes',
+    path: 'members',
     loadChildren: () =>
-      import('../participantes/participantes.module').then(
-        (m) => m.ParticipantesPageModule
-      ),
+      import('../members/members.module').then((m) => m.MembersPageModule),
   },
 ];
 
