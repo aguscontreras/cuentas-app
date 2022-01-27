@@ -12,13 +12,20 @@ export class ProductsService {
   constructor() {
     this.productsSource = new BehaviorSubject<Product[]>([]);
     this.products$ = this.productsSource.asObservable();
+
+    const prod_1 = new Product('Coca-cola', 200);
+    const prod_2 = new Product('Vino', 350);
+    const prod_3 = new Product('Hielo', 125);
+    const prod_4 = new Product('Fiambres', 420);
+
+    this.productsSource.next([prod_1, prod_2, prod_3, prod_4]);
   }
 
   getAll(): Product[] {
     return this.productsSource.getValue();
   }
 
-  getProductoById(id: number): Product {
+  getProductoById(id: string): Product {
     return this.productsSource.getValue().find((product) => product.id === id);
   }
 
@@ -39,7 +46,7 @@ export class ProductsService {
     }
   }
 
-  removeProduct(id: number): void {
+  removeProduct(id: string): void {
     const filteredProducts = this.productsSource
       .getValue()
       .filter((product) => product.id !== id);

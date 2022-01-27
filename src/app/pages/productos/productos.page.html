@@ -29,7 +29,7 @@
     </ng-template>
 
     <ion-item
-      *ngFor="let product of products"
+      *ngFor="let product of products$ | async"
       button
       (click)="handleClickItem(product.id)"
     >

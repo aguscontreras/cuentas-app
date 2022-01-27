@@ -4,6 +4,7 @@ import { AbmProductoComponent } from '../../components/popup/abm-producto/abm-pr
 import { Product } from '../../models';
 import { ProductsService } from '../../_services/productos.service';
 import { ToastService } from '../../_services/toast.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-productos',
@@ -11,18 +12,21 @@ import { ToastService } from '../../_services/toast.service';
   styleUrls: ['./productos.page.scss'],
 })
 export class ProductosPage implements OnInit {
+  public products$: Observable<Product[]>;
   public products: Product[];
   public selectedProducto: Product;
   public total: number = 0;
 
   constructor(
     public readonly modalController: ModalController,
-    private readonly productosService: ProductsService,
+    private readonly productsService: ProductsService,
     private readonly toastService: ToastService
-  ) {}
+  ) {
+    this.products$ = this.productsService.products$;
+  }
 
   ngOnInit() {
-    this.productosService.products$.subscribe({
+    this.productsService.products$.subscribe({
       next: (products) => {
         this.products = products;
         this.calculateTotal();
@@ -35,7 +39,7 @@ export class ProductosPage implements OnInit {
     this.presentModal();
   }
 
-  handleClickItem(productId: number): void {
+  handleClickItem(productId: string): void {
     this.selectedProducto = this.products.find(
       (product) => product.id === productId
     );
@@ -48,7 +52,7 @@ export class ProductosPage implements OnInit {
       component: AbmProductoComponent,
       componentProps: { producto },
       initialBreakpoint: 0.5,
-      breakpoints: [0, 0.5],
+      breakpoints: [0, 0.5, 1],
     });
 
     modal.onDidDismiss().then((res) => {

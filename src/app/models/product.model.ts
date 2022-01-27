@@ -4,13 +4,13 @@ export class Product {
   nombre: string;
   precio: number;
   members: Member[];
-  private _id: number;
+  private _id: string;
 
   constructor(nombre: string, precio: number) {
     this.nombre = nombre;
     this.precio = precio;
     this.members = [];
-    this._id = new Date().getTime();
+    this._id = Math.random().toString(36).substr(2, 18);
   }
 
   get id() {
